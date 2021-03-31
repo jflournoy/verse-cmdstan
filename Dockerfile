@@ -1,5 +1,8 @@
 FROM rocker/verse:4.0.4
 
+RUN install2.r --error --skipinstalled -r https://mc-stan.org/r-packages/ $CRAN \
+	cmdstanr
+
 WORKDIR /cmdstan
 
 RUN apt-get update
