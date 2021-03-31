@@ -14,4 +14,9 @@ RUN chmod a+w -R cmdstan
 
 RUN cd cmdstan; echo "CmdStan home directory is" $PWD
 
-ENV NAME cmdstan-docker
+ENV NAME verse-cmdstan 
+
+RUN export http_proxy="http://rcproxy.rc.fas.harvard.edu:3128"
+RUN export https_proxy="http://rcproxy.rc.fas.harvard.edu:3128"
+RUN export no_proxy="localhost,cbscentral.rc.fas.harvard.edu,nrgcentral.rc.fas.harvard.edu,contecentral.rc.fas.harvard.edu,ncfcode.rc.fas.harvard.edu,nccentry.rc.fas.harvard.edu,ncftunnel.rc.fas.harvard.edu,dpdash.rc.fas.harvard.edu,gitlab-int.rc.fas.harvard.edu"
+RUN export R_LIBS_USER=~/R_VERSE-CMDSTAN:$R_LIBS_USER
