@@ -17,7 +17,7 @@ RUN apt-get update
 RUN apt-get install -y docker-ce docker-ce-cli containerd.io
 
 RUN apt-get install --no-install-recommends -qq wget ca-certificates make g++
-RUN wget --progress=dot:mega https://github.com/stan-dev/cmdstan/releases/download/v2.28.0/cmdstan-2.28.0-linux-arm64.tar.gz
+RUN wget --progress=dot:mega https://github.com/stan-dev/cmdstan/releases/download/v2.28.0/cmdstan-2.28.0.tar.gz
 RUN tar -zxpf cmdstan-2.28.0.tar.gz
 RUN ln -s cmdstan-2.28.0 cmdstan
 RUN cd cmdstan; make build
