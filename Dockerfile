@@ -15,6 +15,9 @@ RUN echo \
       $(lsb_release -cs) stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null
 RUN apt-get update
 RUN apt-get install -y docker-ce docker-ce-cli containerd.io
+RUN groupadd docker
+RUN usermod -aG docker rstudio
+
 
 RUN apt-get install --no-install-recommends -qq wget ca-certificates make g++
 RUN wget --progress=dot:mega https://github.com/stan-dev/cmdstan/releases/download/v2.28.0/cmdstan-2.28.0.tar.gz
