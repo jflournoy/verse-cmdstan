@@ -13,5 +13,6 @@ ENV CMDSTAN /cmdstan/cmdstan-${CMDSTANVER}
 COPY make_local ${CMDSTAN}/make/local
 RUN Rscript -e "file <- file.path(cmdstanr::cmdstan_path(), \"examples\", \"bernoulli\", \"bernoulli.stan\");mod <- cmdstanr::cmdstan_model(file)"
 RUN chmod a+w -R ${CMDSTAN}
+RUN echo "CMDSTAN=/cmdstan/cmdstan-${CMDSTANVER}" >> ${R_HOME}/etc/Renviron
 
 ENV NAME cmdstan-docker
