@@ -18,6 +18,7 @@
 # Add flags that are forwarded to the Stan-to-C++ compiler (stanc3).
 # This example enables pedantic mode
 STANCFLAGS+= --warn-pedantic
+STANCFLAGS+= --O1
 
 # Enable C++ compiler and linker optimization recommended by Stan developers.
 # Can significantly slow down compilation.
