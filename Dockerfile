@@ -1,9 +1,9 @@
-FROM rocker/ml-verse:4.3.1
+FROM rocker/ml-verse:4.3.2
 MAINTAINER "John Flournoy" <johnflournoy@gmail.com>
 
 WORKDIR /cmdstan
 
-ENV CMDSTANVER="2.33.1"
+ENV CMDSTANVER="2.34.1"
 RUN apt-get update
 RUN apt-get install --no-install-recommends -qq wget ca-certificates make g++ htop libudunits2-dev libproj-dev libgdal-dev
 RUN apt-get install -qq ocl-icd-libopencl1 opencl-headers ocl-icd-opencl-dev clinfo
