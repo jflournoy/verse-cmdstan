@@ -1,5 +1,5 @@
 FROM rocker/ml-verse:4.3.2
-MAINTAINER "John Flournoy" <johnflournoy@gmail.com>
+LABEL maintainer="John Flournoy <johnflournoy@gmail.com>"
 
 WORKDIR /cmdstan
 
