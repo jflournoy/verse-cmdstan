@@ -7,7 +7,14 @@ ENV CMDSTANVER="2.34.1"
 RUN apt-get update
 RUN apt-get install --no-install-recommends -qq wget ca-certificates make g++ htop libudunits2-dev libproj-dev libgdal-dev
 RUN apt-get install -qq ocl-icd-libopencl1 opencl-headers ocl-icd-opencl-dev clinfo
-RUN apt-get install -qq texlive-xetex
+RUN apt-get install -qq `sudo apt --assume-no install texlive-full | \
+		awk '/The following additional packages will be installed/{f=1;next} /Suggested packages/{f=0} f' | \
+		tr ' ' '\n' | \
+        grep -vP 'doc$' | \
+        grep -vP 'texlive-lang' | \
+        grep -vP 'latex-cjk' | \
+        tr '\n' ' '` && apt-get install -qq texlive-lang-english
+RUN apt-get install -qq fonts-firacode
 RUN mkdir -p /etc/OpenCL/vendors && \
     echo "libnvidia-opencl.so.1" > /etc/OpenCL/vendors/nvidia.icd
 ENV NVIDIA_VISIBLE_DEVICES all
