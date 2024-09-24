@@ -41,4 +41,8 @@ RUN Rscript -e "file <- file.path(cmdstanr::cmdstan_path(), \"examples\", \"bern
 RUN Rscript -e "file <- file.path(cmdstanr::cmdstan_path(), \"examples\", \"bernoulli\", \"bernoulli.stan\");mod <- cmdstanr::cmdstan_model(file, cpp_options = list(stan_opencl = TRUE))"
 RUN chmod a+w -R ${CMDSTAN}
 
+RUN wget --no-check-certificate https://github.com/rocker-org/rocker-versioned2/raw/refs/heads/master/scripts/install_quarto.sh
+ENV QUARTO_VERSION="1.5.57"
+RUN sh install_quarto.sh
+
 ENV NAME cmdstan-docker
