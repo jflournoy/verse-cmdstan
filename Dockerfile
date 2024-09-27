@@ -38,4 +38,9 @@ RUN wget --no-check-certificate https://github.com/rocker-org/rocker-versioned2/
 ENV QUARTO_VERSION="1.5.57"
 RUN sh install_quarto.sh
 
+RUN curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | bash && \
+    apt-get update && \
+    apt-get install -qq git-lfs && \
+    git lfs install
+
 ENV NAME cmdstan-docker
