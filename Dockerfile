@@ -1,5 +1,9 @@
-FROM ghcr.io/rocker/ml-verse:4.3.2
-LABEL maintainer="John Flournoy <johnflournoy@gmail.com>"
+FROM jflournoy/ml-verse:4.3.2
+
+COPY zscaler-root.pem /usr/local/share/ca-certificates/zscaler-root.crt
+COPY zscaler-intermediate.pem /usr/local/share/ca-certificates/zscaler-intermediate.crt
+RUN apt-get update && apt-get install -y ca-certificates \
+    && update-ca-certificates
 
 WORKDIR /cmdstan
 
@@ -7,13 +11,11 @@ ENV CMDSTANVER="2.34.1"
 RUN apt-get update
 RUN apt-get install --no-install-recommends -qq wget ca-certificates make g++ htop libudunits2-dev libproj-dev libgdal-dev
 RUN apt-get install -qq ocl-icd-libopencl1 opencl-headers ocl-icd-opencl-dev clinfo
-RUN apt-get install -qq `sudo apt --assume-no install texlive-full | \
-		awk '/The following additional packages will be installed/{f=1;next} /Suggested packages/{f=0} f' | \
-		tr ' ' '\n' | \
-        grep -vP 'doc$' | \
-        grep -vP 'texlive-lang' | \
-        grep -vP 'latex-cjk' | \
-        tr '\n' ' '` && apt-get install -qq texlive-lang-english
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    texlive-base \
+    texlive-latex-extra \
+    texlive-fonts-recommended \
+    texlive-lang-english
 RUN apt-get install -qq fonts-firacode
 RUN mkdir -p /etc/OpenCL/vendors && \
     echo "libnvidia-opencl.so.1" > /etc/OpenCL/vendors/nvidia.icd
@@ -36,7 +38,7 @@ RUN chmod a+w -R ${CMDSTAN}
 
 RUN wget --no-check-certificate https://github.com/rocker-org/rocker-versioned2/raw/refs/heads/master/scripts/install_quarto.sh
 ENV QUARTO_VERSION="1.5.57"
-RUN sh install_quarto.sh
+RUN bash install_quarto.sh
 
 RUN curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | bash && \
     apt-get update && \

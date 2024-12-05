@@ -2,6 +2,7 @@ version: '3.8'
 
 services:
   rstudio:
+    platform: linux/arm64
     image: jflournoy/verse-cmdstan:cppopt
     privileged: true
     ports:
@@ -12,4 +13,5 @@ services:
       - "/var/run/docker.sock:/var/run/docker.sock"
       - "${HOME}/code:/home/rstudio/code"
       - "${HOME}/data:/home/rstudio/data"
-      - "${HOME}/r_verse-cmdstan_4.3:/home/rstudio/R/x86_64-pc-linux-gnu-library/4.3"
+      - "${HOME}/R:/home/rstudio/R"
+      - "./init.sh:/docker-entrypoint.d/init.sh"
