@@ -15,3 +15,4 @@ services:
       - "${HOME}/data:/home/rstudio/data"
       - "${HOME}/R:/home/rstudio/R"
       - "./init.sh:/docker-entrypoint.d/init.sh"
+      - ./rsession.conf:/etc/rstudio/rsession.conf
