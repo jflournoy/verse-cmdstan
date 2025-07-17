@@ -26,8 +26,10 @@ STAN_CPP_OPTIMS=true
 # Remove range checks from the model for faster runtime. Use this flag with caution
 # and only once the indexing has been validated. In case of any unexpected behavior
 # remove the flag for easier debugging.
-# STAN_NO_RANGE_CHECKS=true
+STAN_NO_RANGE_CHECKS=true
 
 # Adding other arbitrary C++ compiler flags
-# CXXFLAGS+= -funroll-loops
+CXXFLAGS+= -O3 -march=native -mtune=native
+CXXFLAGS+= -DEIGEN_USE_BLAS -DEIGEN_USE_LAPACKE
+LDLIBS += -lblas -llapack -llapacke
 
