@@ -1,0 +1,15 @@
+selected_scheme scheme-medium
+TEXDIR /usr/local/texlive/${TL_YEAR}
+TEXMFLOCAL /usr/local/texlive/texmf-local
+TEXMFSYSCONFIG /usr/local/texlive/${TL_YEAR}/texmf-config
+TEXMFSYSVAR /usr/local/texlive/${TL_YEAR}/texmf-var
+TEXMFVAR ~/.texlive${TL_YEAR}/texmf-var
+binary_x86_64-linux 1
+collection-basic 1
+collection-latex 1
+collection-latexrecommended 1
+collection-xetex 1
+collection-fontsrecommended 1
+collection-bibtexextra 1
+option_doc 0
+option_src 0

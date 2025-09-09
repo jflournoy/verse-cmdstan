@@ -9,28 +9,57 @@ ENV CMDSTANVER="2.35.0" \
 WORKDIR /cmdstan
 
 RUN apt-get update \
- && apt-get install -y --no-install-recommends software-properties-common \
+ && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends software-properties-common \
  && add-apt-repository -y universe \
  && apt-get update \
- && apt-get install -y --no-install-recommends \
-    wget ca-certificates make g++ htop libudunits2-dev libproj-dev libgdal-dev \
+ && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+    wget ca-certificates perl xz-utils tar make g++ htop \
+    libudunits2-dev libproj-dev libgdal-dev \
     ocl-icd-libopencl1 opencl-headers ocl-icd-opencl-dev clinfo \
-    texlive-base \
-    texlive-latex-base \
-    texlive-latex-recommended \
-    texlive-latex-extra \
-    texlive-bibtex-extra \
-    texlive-fonts-recommended \
-    texlive-lang-english \
-    texlive-xetex \
-    texlive-fonts-extra \
-    biber \
-    fonts-dejavu-core \
-    fonts-dejavu-extra \
+    fonts-dejavu-core fonts-dejavu-extra fonts-firacode \
     liblapacke-dev libopenblas-dev \
-    fonts-firacode \
-    curl gnupg 
-# && rm -rf /var/lib/apt/lists/* 
+    curl gnupg fontconfig gettext-base \
+ && apt-get clean \
+ && rm -rf /var/lib/apt/lists/*
+
+# Use bash for all subsequent RUNs (safer for && chains and pipefail)
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+
+# TeX Live location & PATH
+ENV TL_YEAR=2025
+ENV TL_ROOT="/usr/local/texlive/${TL_YEAR}"
+ENV PATH="${TL_ROOT}/bin/x86_64-linux:${PATH}"
+
+# Provide the TeX Live profile as a tracked file
+# (Create this file in your repo next to the Dockerfile)
+COPY texlive.profile /tmp/texlive.profile.in
+
+# Install upstream TeX Live and core packages via tlmgr
+RUN set -eux \
+ && wget -qO /tmp/install-tl-unx.tar.gz https://mirror.ctan.org/systems/texlive/tlnet/install-tl-unx.tar.gz \
+ && mkdir -p /tmp/install-tl \
+ && tar -xzf /tmp/install-tl-unx.tar.gz -C /tmp/install-tl --strip-components=1 \
+ && envsubst < /tmp/texlive.profile.in > /tmp/texlive.profile \
+ && /tmp/install-tl/install-tl -profile /tmp/texlive.profile \
+ && rm -rf /tmp/install-tl* /tmp/install-tl-unx.tar.gz \
+ && ln -sf ${TL_ROOT}/bin/x86_64-linux/* /usr/local/bin/ \
+ && tlmgr option repository ctan \
+ && tlmgr update --self --all \
+ && tlmgr install \
+      latexmk csquotes \
+      standalone \
+      siunitx physics \
+      adjustbox collectbox \
+      titlesec tabu \
+      libertinus-fonts inconsolata newtx \
+ && mktexlsr
+
+# Give rstudio permission to update the system TeX Live tree
+RUN groupadd -r texlive \
+ && usermod -a -G texlive rstudio \
+ && chgrp -R texlive ${TL_ROOT} \
+ && find ${TL_ROOT} -type d -exec chmod 2775 {} + \
+ && find ${TL_ROOT} -type f -exec chmod g+rw {} +
 
 
 RUN mkdir -p /etc/OpenCL/vendors && \
