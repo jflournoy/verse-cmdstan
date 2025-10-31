@@ -1,0 +1,36 @@
+{
+  "recommendations": [
+    // Claude Code - AI pair programming
+    "anthropic.claude-code",
+
+    // R Development
+    "reditorsupport.r",
+    "rdebugger.r-debugger",
+
+    // Quarto Publishing
+    "quarto.quarto",
+
+    // Markdown & Documentation
+    "yzhang.markdown-all-in-one",
+    "davidanson.vscode-markdownlint",
+
+    // Git & GitHub
+    "github.vscode-pull-request-github",
+    "eamodio.gitlens",
+
+    // JavaScript/Node.js Development
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode",
+
+    // Docker
+    "ms-azuretools.vscode-docker",
+
+    // Spell Checking
+    "streetsidesoftware.code-spell-checker",
+
+    // Remote Development
+    "ms-vscode-remote.remote-ssh",
+    "ms-vscode-remote.remote-containers"
+  ],
+  "unwantedRecommendations": []
+}
