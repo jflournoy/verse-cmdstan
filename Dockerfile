@@ -28,6 +28,14 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 # ========================================
 # Node.js Installation (LTS version 22.x)
 # ========================================
+# Remove old Node.js packages from base image to avoid conflicts
+RUN apt-get update \
+ && apt-get remove -y nodejs libnode-dev libnode72 || true \
+ && apt-get autoremove -y \
+ && apt-get clean \
+ && rm -rf /var/lib/apt/lists/*
+
+# Install Node.js 22.x from NodeSource
 RUN curl -fsSL https://deb.nodesource.com/setup_22.x | bash - \
  && apt-get install -y nodejs \
  && node --version \
@@ -145,6 +153,17 @@ RUN curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.d
     rm -rf /var/lib/apt/lists/*
 
 # ========================================
+# GitHub CLI
+# ========================================
+RUN curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg \
+ && chmod go+r /usr/share/keyrings/githubcli-archive-keyring.gpg \
+ && echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | tee /etc/apt/sources.list.d/github-cli.list > /dev/null \
+ && apt-get update \
+ && apt-get install -y gh \
+ && apt-get clean \
+ && rm -rf /var/lib/apt/lists/*
+
+# ========================================
 # Additional R packages for development
 # ========================================
 RUN Rscript -e "\
@@ -204,5 +223,6 @@ RUN echo "=== Environment Check ===" \
  && echo "Node version: $(node --version)" \
  && echo "npm version: $(npm --version)" \
  && echo "Quarto version: $(quarto --version)" \
+ && echo "GitHub CLI version: $(gh --version | head -1)" \
  && echo "CmdStan path: ${CMDSTAN}" \
  && echo "========================="
