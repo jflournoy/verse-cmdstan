@@ -178,6 +178,21 @@ RUN Rscript -e "\
 "
 
 # ========================================
+# Additional R packages for analysis
+# ========================================
+
+RUN Rscript -e "\
+  install.packages(c( \
+    'marginaleffects', \
+    'data.table', \
+    'lme4', \
+    'glmmTMB', \
+    'ggseg', \
+    'ggsegGlasser' \
+  )); \
+"
+
+# ========================================
 # Environment & Path Setup
 # ========================================
 ENV NAME cmdstan-docker

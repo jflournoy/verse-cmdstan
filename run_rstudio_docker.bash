@@ -46,7 +46,9 @@ docker run --rm --gpus all -p $PORT:8787 \
     -v "$HOME/r_verse-cmdstan-4.3:/home/rstudio/R/x86_64-pc-linux-gnu-library/4.3" \
     -v /var/run/docker.sock:/var/run/docker.sock \
     -e DISABLE_AUTH=true \
-    jflournoy/verse-cmdstan:cuda
+    -e USERID=$(id -u) \
+    -e GROUPID=$(id -g) \
+    jflournoy/verse-cmdstan:latest
 
 function cleanup {
 	rm "${login_file}"
