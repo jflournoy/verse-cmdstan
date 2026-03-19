@@ -87,8 +87,6 @@ RUN set -eux \
  && /tmp/install-tl/install-tl -profile /tmp/texlive.profile \
  && rm -rf /tmp/install-tl* /tmp/install-tl-unx.tar.gz \
  && ln -sf ${TL_ROOT}/bin/x86_64-linux/* /usr/local/bin/ \
- && tlmgr option repository ctan \
- && tlmgr update --self --all \
  && tlmgr install \
       latexmk csquotes \
       standalone \
