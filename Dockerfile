@@ -143,6 +143,25 @@ RUN wget --no-check-certificate https://github.com/rocker-org/rocker-versioned2/
     bash install_quarto.sh && \
     rm ./install_quarto.sh
 
+# Install Chromium for Quarto (diagram rendering, etc.) and its dependencies
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends \
+    libatk1.0-0 \
+    libatk-bridge2.0-0 \
+    libcups2 \
+    libxcomposite1 \
+    libxrandr2 \
+    libxdamage1 \
+    libxkbcommon0 \
+    libasound2 \
+    libpangocairo-1.0-0 \
+    libpango-1.0-0 \
+    libgbm1 \
+    libnss3 \
+ && apt-get clean \
+ && rm -rf /var/lib/apt/lists/* \
+ && quarto install chromium
+
 # ========================================
 # Git LFS
 # ========================================
