@@ -32,6 +32,6 @@ jobs:
           context: .
           platforms: linux/amd64
           push: true
-          tags: jflournoy/verse-cmdstan:cppopt
+          tags: jflournoy/verse-cmdstan:latest
           cache-from: type=registry,ref=jflournoy/verse-cmdstan:buildcache
           cache-to: type=registry,ref=jflournoy/verse-cmdstan:buildcache,mode=max
