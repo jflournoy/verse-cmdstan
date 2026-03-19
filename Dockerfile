@@ -70,7 +70,7 @@ RUN mkdir -p /home/rstudio/.npm-global \
 # ========================================
 # TeX Live Configuration
 # ========================================
-ENV TL_YEAR=2025
+ENV TL_YEAR=2026
 ENV TL_ROOT="/usr/local/texlive/${TL_YEAR}"
 ENV PATH="${TL_ROOT}/bin/x86_64-linux:${PATH}"
 
